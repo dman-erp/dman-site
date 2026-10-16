@@ -378,6 +378,66 @@ footer .wrap > span:last-child a{color:var(--teal)}
 /* soft type layer */
 h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);font-weight:600;letter-spacing:-.015em}
 .eyebrow,.n,.meta,.zones,.group,.tag,.legend,.d,.y{font-weight:500;letter-spacing:.04em}
+#contact .c-side{flex:1 1 380px;display:flex;flex-direction:column;gap:18px;min-width:0}
+#contact .c-lines{display:flex;flex-direction:column;gap:8px}
+#contact .c-lines .line{gap:6px}
+/* merged slides: about + start, FAQ + contact */
+.ab-start{position:relative;z-index:1;display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--panel-line);padding-top:clamp(18px,3vh,30px)}
+.ab-start-head{display:flex;flex-direction:column;gap:4px}
+.ab-start-head h3{font-size:clamp(22px,2.2vw,28px);font-weight:600}
+.ab-start .btn{align-self:flex-start}
+.ab-start .st{padding:14px 18px}
+#contact .faq-wrap{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+#contact .faq-h{font-size:19px;color:#fff}
+#contact .faq{border-top-color:rgba(255,255,255,.18)}
+#contact .faq details{border-bottom-color:rgba(255,255,255,.18);padding:0}
+#contact .faq summary{color:#fff;font-size:16px;padding:10px 0}
+#contact .faq summary::after{border-color:var(--green)}
+#contact .faq details p{color:var(--on-navy-muted);font-size:15px;padding-bottom:12px}
+#contact .contact{align-items:flex-start}
+#contact form{align-self:stretch;align-content:start}
+.a11y-hc #contact .faq details p{color:#fff}
+
+/* ---- scroll engine: every card fills the screen, scrolling always lands on a whole card ---- */
+html{scroll-padding-top:calc(var(--barh,70px) + 12px)}
+.stage,main > section{scroll-margin-top:calc(var(--barh,70px) + 12px)}
+html.se-on .stage,html.se-on main > section{min-height:calc(100svh - var(--barh,70px) - 24px)}
+html.se-on main > section{justify-content:center}
+html.se-on .stage{display:flex;flex-direction:column}
+html.se-on .stage > .hero-grid{flex:1;align-content:center}
+html.se-on main{gap:0;padding-top:0}
+html.se-on main > section{margin-top:24px}
+html.se-on #top > .stage{margin-top:12px}
+/* B: stacking cards */
+html.se-b .stage,html.se-b main > section{position:sticky;top:var(--st,82px);transform-origin:50% 0;will-change:transform}
+html.se-b main > section{box-shadow:0 -14px 34px rgba(21,56,104,.10)}
+/* C: focus — active card sharp, neighbours peek out blurred */
+html.se-c .stage,html.se-c main > section{min-height:calc(100svh - var(--barh,70px) - 130px);transition:filter .55s ease,opacity .55s ease,transform .55s ease}
+html.se-c .se-dim{filter:blur(5px) saturate(.85);opacity:.45;transform:scale(.975)}
+html.se-c .se-dim *{pointer-events:none}
+.a11y-still.se-c .se-dim,.a11y-hc.se-c .se-dim{filter:none;opacity:.6;transform:none}
+@media (prefers-reduced-motion:reduce){html.se-c .se-dim{filter:none;transform:none}}
+/* D: 3D tilt, E: zoom — transforms driven by distance from the screen centre */
+html.se-d .stage,html.se-d main > section,html.se-e .stage,html.se-e main > section{transform-origin:50% 50%;will-change:transform,opacity}
+/* F: staggered reveal of the landed card's content */
+html.se-f .se-wait > *{opacity:0;transform:translateY(28px)}
+html.se-f .se-live > *{animation:seRise .7s cubic-bezier(.2,.8,.2,1) both}
+html.se-f .se-live > *:nth-child(2){animation-delay:.08s}html.se-f .se-live > *:nth-child(3){animation-delay:.16s}html.se-f .se-live > *:nth-child(4){animation-delay:.24s}html.se-f .se-live > *:nth-child(n+5){animation-delay:.32s}
+html.se-f .se-live > .bgnet{animation:none;opacity:1;transform:none}
+html.se-f .se-wait > .bgnet{opacity:1;transform:none}
+@keyframes seRise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html.se-f .se-wait > *{opacity:1;transform:none}html.se-f .se-live > *{animation:none}}
+.a11y-still.se-f .se-wait > *{opacity:1;transform:none}.a11y-still.se-f .se-live > *{animation:none}
+.se-vortex{position:fixed;inset:0;z-index:19;pointer-events:none;display:none}
+/* side dots */
+.se-dots{position:fixed;z-index:25;right:max(10px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;padding:10px 7px;border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(21,56,104,.12)}
+.se-dots button{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:rgba(21,56,104,.25);cursor:pointer;transition:transform .25s,background .25s}
+.se-dots button[aria-current="true"]{background:var(--teal);transform:scale(1.45)}
+.se-dots button:focus-visible{outline:2px solid var(--teal-2);outline-offset:3px}
+html:not(.se-on) .se-dots{display:none}
+@media (max-width:760px){.se-dots{display:none}}
+.a11y-hc .se-dots{background:#fff;border-color:#000}
+
 </style>
 </head>
 <body>
@@ -392,8 +452,8 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
       <a href="#ai">מתודולוגיה</a>
       <a href="#lectures">הרצאות</a>
       <a href="#about">איך אני עובד</a>
-      <a href="#faq">שאלות</a>
-      <a class="btn teal" href="#contact">לתיאום שיחה</a>
+      <a href="#faq" lang="en">FAQ</a>
+      <a class="btn teal" href="#contact">צור קשר</a>
     </nav>
     <a href="#top" aria-label="לראש העמוד"><img src="logo.png" alt="D-Man Consulting · ERP &amp; AI Solutions"></a>
   </div>
@@ -428,7 +488,7 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
       <div class="sec-head">
         <div class="eyebrow">לפני ואחרי</div>
         <h2 id="h-chg">מה משתנה כשעובדים איתי</h2>
-        <p class="lede">ארבעה מצבים מוכרים בעסקים בינוניים, ומה הם הופכים להיות.</p>
+        <p class="lede">ארבעה מצבים מוכרים בעסקים קטנים ובינוניים, ומה הם הופכים להיות.</p>
       </div>
       <div class="ov-grid" id="ov"></div>
       <a class="btn solid" href="#contact">לתיאום שיחת אבחון</a>
@@ -523,45 +583,46 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
             <div class="ab-row" style="--tint:#e9f6f0;--deep:#1d7a55"><span class="bub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><h3>אחריות מקצה לקצה</h3><p>אפיון, יישום, אינטגרציה והטמעה תחת אחריות אחת, עד לתוצאה בשטח.</p></div>
           </div>
       </div>
-    </section>
-
-    <section id="start" class="block white" aria-labelledby="h-start">
-      <canvas class="bgnet" aria-hidden="true"></canvas>
-      <div class="sec-head"><div class="eyebrow">איך מתחילים</div><h2 id="h-start">שלושה צעדים, ללא התחייבות</h2></div>
-      <div class="steps3">
-        <div class="st"><span class="bub"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span><h3>שיחת היכרות</h3><p>20 דקות בטלפון או בזום: מה המטרה, ומה מפריע היום.</p></div>
-        <div class="st"><span class="bub"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span><h3>אבחון ממוקד</h3><p>מיפוי תהליכים, מערכות ונתונים, וזיהוי המקום שבו הערך הגדול ביותר.</p></div>
-        <div class="st"><span class="bub"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg></span><h3>תוכנית עבודה</h3><p>יעדים מדידים, לוח זמנים והצעת מחיר ברורה.</p></div>
-      </div>
-      <a class="btn solid" href="#contact" style="align-self:flex-start">לתיאום שיחת אבחון</a>
-    </section>
-
-    <section id="faq" class="block white" aria-labelledby="h-faq">
-      <canvas class="bgnet" aria-hidden="true"></canvas>
-      <div class="sec-head"><div class="eyebrow">שאלות נפוצות</div><h2 id="h-faq">לפני שמדברים</h2></div>
-      <div class="faq">
-        <details><summary>עם אילו מערכות אתה עובד?</summary><p>מערכות ERP ו-CRM מובילות לעסקים קטנים ובינוניים, אינטגרציה ביניהן ולמערכות נוספות, והטמעת AI מעל שכבת הנתונים.</p></details>
-        <details><summary>צריך להחליף מערכת כדי להתחיל עם AI?</summary><p>לא. מתחילים באבחון של התהליכים והמערכות הקיימים, ובוחרים תרחיש אחד שאפשר למדוד. לעיתים הצעד הראשון הוא דווקא סידור הנתונים.</p></details>
-        <details><summary>איך שומרים על מידע רגיש?</summary><p>לפני כל כלי קובעים מדיניות וסיווג מידע: מה מותר, באיזה כלי ובאיזו רמת גישה. החיבור למערכות הליבה מתחיל בהרשאת קריאה בלבד.</p></details>
-        <details><summary>אתה עובד גם עם עסקים קטנים?</summary><p>כן. רוב הלקוחות הם עסקים קטנים ובינוניים ומשרדים מקצועיים. ההיקף והקצב נקבעים לפי הארגון.</p></details>
-        <details><summary>אפשר להזמין רק הרצאה או סדנה?</summary><p>כן. ההרצאות והסדנאות עומדות בפני עצמן, ומותאמות לקהל: הנהלה, צוות מקצועי או כל הארגון.</p></details>
+      <div class="ab-start" id="start">
+        <div class="ab-start-head"><div class="eyebrow">איך מתחילים</div><h3 id="h-start">שלושה צעדים, ללא התחייבות</h3></div>
+        <div class="steps3">
+          <div class="st"><span class="bub"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span><h3>שיחת היכרות</h3><p>20 דקות בטלפון או בזום: מה המטרה, ומה מפריע היום.</p></div>
+          <div class="st"><span class="bub"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span><h3>אבחון ממוקד</h3><p>מיפוי תהליכים, מערכות ונתונים, וזיהוי המקום שבו נמצא הערך הגדול ביותר.</p></div>
+          <div class="st"><span class="bub"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg></span><h3>תוכנית עבודה</h3><p>יעדים מדידים, לוח זמנים והצעת מחיר ברורה.</p></div>
+        </div>
+        <a class="btn solid" href="#contact">לתיאום שיחת אבחון</a>
       </div>
     </section>
+
+
 
     <section id="contact" class="block navy" aria-labelledby="h-contact">
       <div class="contact">
         <div>
-          <div class="eyebrow">יצירת קשר</div>
+          <div class="eyebrow">FAQ · יצירת קשר</div>
           <h2 id="h-contact" style="font-size:clamp(30px,3.6vw,46px);font-weight:600">יש תהליך שלא עובד כמו שצריך?</h2>
           <p class="lede">שיחת אבחון של 20 דקות, ללא התחייבות. מענה תוך יום עסקים אחד.</p>
-          <div class="line"><a class="v ltr" href="tel:+972546724550">054-672-4550</a></div>
-          <div class="line"><a class="v ltr" href="mailto:slavikd@dman-erp.com">slavikd@dman-erp.com</a></div>
-          <div class="acts">
-            <a class="btn act" href="tel:+972546724550"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>התקשר</a>
-            <a class="btn act alt" href="mailto:slavikd@dman-erp.com?subject=%D7%A4%D7%A0%D7%99%D7%99%D7%94%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>שלח אימייל</a>
+          <div class="faq-wrap" id="faq">
+            <h3 id="h-faq" class="faq-h">שאלות נפוצות</h3>
+            <div class="faq">
+              <details><summary>עם אילו מערכות אתה עובד?</summary><p>מערכות ERP ו-CRM מובילות לעסקים קטנים ובינוניים, אינטגרציה ביניהן ולמערכות נוספות, והטמעת AI מעל שכבת הנתונים.</p></details>
+              <details><summary>צריך להחליף מערכת כדי להתחיל עם AI?</summary><p>לא. מתחילים באבחון של התהליכים והמערכות הקיימים, ובוחרים תרחיש אחד שאפשר למדוד. לעיתים הצעד הראשון הוא דווקא סידור הנתונים.</p></details>
+              <details><summary>איך שומרים על מידע רגיש?</summary><p>לפני כל כלי קובעים מדיניות וסיווג מידע: מה מותר, באיזה כלי ובאיזו רמת גישה. החיבור למערכות הליבה מתחיל בהרשאת קריאה בלבד.</p></details>
+              <details><summary>אתה עובד גם עם עסקים קטנים?</summary><p>כן. רוב הלקוחות הם עסקים קטנים ובינוניים ומשרדים מקצועיים. ההיקף והקצב נקבעים לפי הארגון.</p></details>
+              <details><summary>אפשר להזמין רק הרצאה או סדנה?</summary><p>כן. ההרצאות והסדנאות עומדות בפני עצמן, ומותאמות לקהל: הנהלה, צוות מקצועי או כל הארגון.</p></details>
+            </div>
           </div>
         </div>
-        <form id="cform" action="https://formsubmit.co/slavikd@dman-erp.com" method="POST" novalidate>
+        <div class="c-side">
+          <div class="c-lines">
+            <div class="line"><a class="v ltr" href="tel:+972546724550">054-672-4550</a></div>
+            <div class="line"><a class="v ltr" href="mailto:slavikd@dman-erp.com">slavikd@dman-erp.com</a></div>
+            <div class="acts">
+              <a class="btn act" href="tel:+972546724550"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>התקשר</a>
+              <a class="btn act alt" href="mailto:slavikd@dman-erp.com?subject=%D7%A4%D7%A0%D7%99%D7%99%D7%94%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>שלח אימייל</a>
+            </div>
+          </div>
+          <form id="cform" action="https://formsubmit.co/slavikd@dman-erp.com" method="POST" novalidate>
           <input type="hidden" name="_subject" value="פנייה חדשה מהאתר · D-Man Consulting">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
@@ -574,6 +635,7 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
           <button class="btn" type="submit">שליחה</button>
           <p class="sent" id="sent" role="status" aria-live="polite" hidden></p>
         </form>
+        </div>
       </div>
     </section>
 
@@ -589,7 +651,7 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
   <div class="wrap">
     <span>© 2026 D-Man Consulting · סלביק דורפמן · עוסק מורשה</span>
     <span class="foot-links"><a href="accessibility.html">הצהרת נגישות</a><a href="privacy.html">מדיניות פרטיות</a></span>
-    <span>מוצר נוסף: <a href="https://dman-erp.com" target="_blank" rel="noopener">D-Man Scanner</a>, סריקה וניהול מסמכים בענן</span>
+    <span>מוצר נוסף: <a href="https://scanner.dman-erp.com" target="_blank" rel="noopener">D-Man Scanner</a>, סריקה וניהול מסמכים בענן</span>
   </div>
 </footer>
 </div>
@@ -628,7 +690,7 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
     var A=document.getElementById('pdA'),Bb=document.getElementById('pdB');
     A.replaceChildren.apply(A,li(p.a));Bb.replaceChildren.apply(Bb,li(p.b));
     var g=document.getElementById('pdG');g.replaceChildren();
-    var s=document.createElement('b');s.textContent='תנאי מעבר לשלב הבא: ';g.appendChild(s);g.appendChild(document.createTextNode(p.g));
+    var s=document.createElement('b');s.textContent=i===P.length-1?'היעד בסוף התהליך: ':'תנאי מעבר לשלב הבא: ';g.appendChild(s);g.appendChild(document.createTextNode(p.g));
   }
   B.forEach(function(b){b.addEventListener('click',function(){phase(+b.dataset.p)})});
   phase(0);
@@ -864,6 +926,225 @@ var S=[
     else if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){demo();io.disconnect()}},{threshold:.3});io.observe(g)}
     else demo();
   })();
+})();
+</script>
+<script>window.__SE_MODE='g:mix'</script>
+<script>
+/* Scroll engine: header offset, whole-card landing, wheel/key paging, side dots, optional stacking */
+(function(){
+  var R=document.documentElement,bar=document.querySelector('.bar'),MODE=window.__SE_MODE||'a';
+  var cards=[].slice.call(document.querySelectorAll('#top > .stage, main > section'));
+  if(!cards.length)return;
+  var fine=matchMedia('(pointer:fine)'),still=function(){return matchMedia('(prefers-reduced-motion: reduce)').matches||R.classList.contains('a11y-still')};
+  var S=[],E=[],H=0,AV=600,TGT=null,ZT=0,wLastT=0,wLastD=0,lock=0,busy=false,raf=0,endT=0;
+  /* dots */
+  var nav=document.createElement('nav');nav.className='se-dots';nav.setAttribute('aria-label','מעבר בין חלקי העמוד');
+  var names=cards.map(function(c,i){var h=c.querySelector('h1,h2');return h?h.textContent.trim():('חלק '+(i+1))});
+  var dots=cards.map(function(c,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',names[i]);b.addEventListener('click',function(){to(i)});nav.appendChild(b);return b});
+  document.body.appendChild(nav);
+  function off(){return (bar?bar.offsetHeight:70)+12}
+  function measure(){
+    var o=off();R.style.setProperty('--barh',(bar?bar.offsetHeight:70)+'px');
+    var avail=innerHeight-o-12;
+    /* natural positions: read with stacking released */
+    var y0=scrollY;cards.forEach(function(c){c.style.position='relative';c.style.transform='';c.style.filter=''});
+    var bh=(bar?bar.offsetHeight:70),isC=R.classList.contains('se-c');
+    /* fit: on desktop a card taller than the screen is scaled down so every step is a whole card */
+    var fitOn=R.classList.contains('se-on')&&innerWidth>=760&&!R.classList.contains('se-b');
+    cards.forEach(function(c){
+      for(var it=0;it<4;it++){var z=parseFloat(c.style.zoom)||1,hr=c.getBoundingClientRect().height,nz=z;
+        if(!fitOn)nz=1;else if(hr>avail+2)nz=Math.max(.68,z*avail/hr);else if(z<1&&hr<avail-40)nz=Math.min(1,z*(avail-8)/hr);
+        if(Math.abs(nz-z)<.006)break;c.style.zoom=nz>=.995?'':nz.toFixed(3);ZT=performance.now()}
+    });
+    function hh(c){return c.getBoundingClientRect().height}
+    function oi(c){return isC?bh+Math.max(12,Math.round((innerHeight-bh-hh(c))/2)):o}
+    S=cards.map(function(c){return Math.max(0,Math.round(c.getBoundingClientRect().top+y0-oi(c)))});S[0]=0;AV=avail;
+    E=cards.map(function(c,i){var t=Math.max(0,Math.round(c.getBoundingClientRect().top+y0-oi(c)));var ov=Math.round(hh(c)-avail);return ov>36?Math.max(S[i],t+ov):S[i]});
+    cards.forEach(function(c,i){c.style.position='';var h=c.offsetHeight;c.style.setProperty('--st',Math.min(o,innerHeight-h-12)+'px')});
+    H=Math.max(0,document.documentElement.scrollHeight-innerHeight);
+    paint();
+  }
+  /* keep cards whose content cycles (methodology phases) at a stable height so landings never drift */
+  (function(){var pd=document.querySelector('.phase-detail');if(!pd||!window.ResizeObserver)return;var mx=0;new ResizeObserver(function(){var h=pd.getBoundingClientRect().height/(parseFloat((pd.closest('section')||pd).style.zoom)||1);if(h>mx+1){mx=h;pd.style.minHeight=Math.ceil(mx)+'px'}}).observe(pd)})();
+  function idx(y){var i=0;for(var k=0;k<S.length;k++)if(S[k]<=y+6)i=k;return i}
+  function go(y){var b=still()?'auto':'smooth';y=Math.round(Math.min(H,Math.max(0,y)));busy=true;TGT=y;scrollTo({top:y,behavior:b});lock=performance.now()+(still()?120:800);clearTimeout(window.__seB);window.__seB=setTimeout(function(){busy=false;TGT=null},1600)}
+  /* G: neural transitions — the page dissolves into a network of nodes that re-forms as the next card.
+     Variants: vortex (spiral), wave (mesh sweeps across), synapse (ripple from centre), rain (nodes fall), sphere (rotating brain-sphere) */
+  var vx=null,vc=null,vBusy=false;
+  function ez(t){t=Math.min(1,Math.max(0,t));return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+  function neural(y,dir,V){
+    if(vBusy)return;vBusy=true;busy=true;TGT=null;lock=performance.now()+1400;
+    if(!vx){vx=document.createElement('canvas');vx.className='se-vortex';vx.setAttribute('aria-hidden','true');document.body.appendChild(vx);vc=vx.getContext('2d')}
+    var d=Math.min(2,devicePixelRatio||1),W=innerWidth,Hh=innerHeight;vx.width=W*d;vx.height=Hh*d;vc.setTransform(d,0,0,d,0,0);vx.style.display='block';
+    var top=(bar?bar.offsetHeight:70),AH=Hh-top,cx=W/2,cy=top+AH/2,N=W<700?96:180,P=[],Ln=[],COL=['18,160,160','59,192,124','21,56,104','96,150,205'];
+    var cols=Math.max(4,Math.round(Math.sqrt(N*W/AH))),rows=Math.ceil(N/cols),maxd=Math.hypot(W/2,AH/2);
+    for(var i=0;i<N;i++){
+      var c=i%cols,r=Math.floor(i/cols),gx=(c+.5)*W/cols+(Math.random()-.5)*W/cols*.7,gy=top+(r+.5)*AH/rows+(Math.random()-.5)*AH/rows*.7;
+      var sx=Math.random()*W,sy=top+Math.random()*AH,k=1-2*(i+.5)/N,rad=Math.sqrt(1-k*k),th=i*2.39996;
+      P.push({sx:sx,sy:sy,a:Math.atan2(sy-cy,sx-cx),r:Math.hypot(sx-cx,sy-cy),gx:gx,gy:gy,gd:Math.hypot(gx-cx,gy-cy)/maxd,
+        ux:Math.cos(th)*rad,uy:k,uz:Math.sin(th)*rad,rv:Math.random(),r2:Math.hypot(W,Hh)*(.15+Math.random()*.45),s:1.2+Math.random()*2.2,c:COL[i%4]});
+    }
+    var ref=V==='vortex'?function(p){return [p.sx,p.sy]}:V==='sphere'?function(p){return [p.ux*100,p.uy*100]}:function(p){return [p.gx,p.gy]};
+    var lim=V==='sphere'?34:Math.max(W/cols,AH/rows)*1.6;
+    P.forEach(function(p,i){var A=ref(p),best=[];P.forEach(function(q,j){if(i<j){var B=ref(q),dd=Math.hypot(A[0]-B[0],A[1]-B[1]);if(dd<lim)best.push([j,dd])}});best.sort(function(m,n){return m[1]-n[1]}).slice(0,V==='vortex'||V==='sphere'?2:3).forEach(function(b){Ln.push([i,b[0]])})});
+    var sgn=dir>0?1:-1,T1=V==='sphere'?620:540,T2=V==='sphere'?760:660,t0=performance.now(),swapped=false;
+    function lerp(a,b,t){return a+(b-a)*t}
+    function sphere(p,t,R){var ang=t*.0032*sgn,ca=Math.cos(ang),sa=Math.sin(ang),x=p.ux*ca+p.uz*sa,z=-p.ux*sa+p.uz*ca,yy=p.uy*Math.cos(.35)-z*Math.sin(.35),zz=p.uy*Math.sin(.35)+z*Math.cos(.35),f=3/(3+zz);return [cx+x*f*R,cy+yy*f*R,f]}
+    function at(p,ph,u,e,t){ /* returns [x,y,sizeMul,alphaMul] */
+      var di,ei;
+      if(V==='vortex'){
+        if(!ph){var rr=p.r*(1-e*.94),aa=p.a+sgn*e*4.2;return [cx+rr*Math.cos(aa),cy+rr*Math.sin(aa)*.82,1,1]}
+        var r2=p.r2*e+p.r*.06*(1-e),a2=p.a+sgn*4.2+sgn*e*1.6;return [cx+r2*Math.cos(a2),cy+r2*Math.sin(a2)*.82,1+e*.6,1]}
+      if(V==='wave'){
+        var off=W*1.15*sgn,wob=Math.sin(p.gy/70+t*.007)*14;di=(p.gy-top)/AH*.35;ei=ez((u-di)/(1-.35));
+        if(!ph)return [p.gx+off*(1-ei)+wob*(1-ei),p.gy,1,1];
+        return [p.gx-off*ei+wob*ei,p.gy+Math.sin(p.gx/60)*8*ei,1,1]}
+      if(V==='synapse'){
+        di=p.gd*.45;ei=ez((u-di)/.55);
+        if(!ph)return [lerp(p.sx,p.gx,ei),lerp(p.sy,p.gy,ei),1+.8*Math.max(0,1-Math.abs(u-di)*6),.15+.85*ei];
+        return [lerp(p.gx,cx+(p.gx-cx)*2.6,ei),lerp(p.gy,cy+(p.gy-cy)*2.6,ei),1,1]}
+      if(V==='rain'){
+        di=(p.gx/W)*.3+p.rv*.12;ei=ez((u-di)/(1-.42));var from=sgn>0?top-40-p.rv*120:Hh+40+p.rv*120,to2=sgn>0?Hh+60+p.rv*160:top-60-p.rv*160;
+        if(!ph)return [p.gx,lerp(from,p.gy,ei),1,1];
+        return [p.gx,lerp(p.gy,to2,ei),1,1]}
+      /* sphere */
+      var R0=Math.min(W,AH)*.24;
+      if(!ph){var S1=sphere(p,t,R0);return [lerp(p.sx,S1[0],e),lerp(p.sy,S1[1],e),S1[2],.5+.5*S1[2]]}
+      var S2=sphere(p,t,R0*(1+e*5.5));return [S2[0],S2[1],S2[2]*(1+e),.5+.5*S2[2]];
+    }
+    var dog=setTimeout(function(){abort()},T1+T2+900);
+    function abort(){try{vc.clearRect(0,0,W,Hh)}catch(_){}vx.style.display='none';if(!swapped){swapped=true;var hb=R.style.scrollBehavior;R.style.scrollBehavior='auto';scrollTo(0,y);R.style.scrollBehavior=hb}vBusy=false;busy=false;done=true;paint()}
+    var done=false;
+    function frame(now){if(done)return;try{
+      var t=now-t0,ph=t<T1?0:1,u=ph?Math.min(1,(t-T1)/T2):t/T1,e=ez(u),alpha,pos=[];
+      if(ph&&!swapped){swapped=true;if(TI!==null){measure();y=S[TI]}var hb=R.style.scrollBehavior;R.style.scrollBehavior='auto';scrollTo(0,y);R.style.scrollBehavior=hb;paint()}
+      alpha=ph?.95*(1-e):.95*e;
+      P.forEach(function(p){pos.push(at(p,ph,u,e,t))});
+      vc.clearRect(0,0,W,Hh);vc.fillStyle='rgba(228,239,234,'+alpha.toFixed(3)+')';vc.fillRect(0,0,W,Hh);
+      var g=ph?(1-e):e,gr=V==='sphere'?Math.min(W,AH)*.34:Math.max(60,240*g),glow=vc.createRadialGradient(cx,cy,0,cx,cy,gr);glow.addColorStop(0,'rgba(18,160,160,'+(.32*g).toFixed(3)+')');glow.addColorStop(1,'rgba(18,160,160,0)');vc.fillStyle=glow;vc.fillRect(0,0,W,Hh);
+      if(V==='synapse'){var rr=u*maxd*1.25;vc.strokeStyle='rgba(59,192,124,'+(.5*(1-u)).toFixed(3)+')';vc.lineWidth=2;vc.beginPath();vc.arc(cx,cy,rr,0,6.283);vc.stroke()}
+      var la=ph?(1-e)*.55:.2+.4*e;vc.lineWidth=1;
+      Ln.forEach(function(l){var A=pos[l[0]],B=pos[l[1]];vc.strokeStyle='rgba('+P[l[0]].c+','+(la*Math.min(A[3],B[3])).toFixed(3)+')';vc.beginPath();vc.moveTo(A[0],A[1]);vc.lineTo(B[0],B[1]);vc.stroke()});
+      var pa=ph?(1-e):.4+.6*e;
+      P.forEach(function(p,i){var q=pos[i];vc.fillStyle='rgba('+p.c+','+(pa*q[3]).toFixed(3)+')';vc.beginPath();vc.arc(q[0],q[1],p.s*q[2],0,6.283);vc.fill()});
+      if(ph&&u>=1){clearTimeout(dog);vc.clearRect(0,0,W,Hh);vx.style.display='none';vBusy=false;busy=false;done=true;return}
+      requestAnimationFrame(frame);
+    }catch(err){clearTimeout(dog);abort()}}
+    requestAnimationFrame(frame);
+  }
+  /* L: crumple — the real card crumples like paper into a ball, the next one unfolds and straightens. Every transition is randomised. */
+  var crF=null;
+  function crumpleFilter(){
+    if(crF)return crF;var ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('width','0');svg.setAttribute('height','0');svg.setAttribute('aria-hidden','true');svg.style.position='absolute';
+    svg.innerHTML='<filter id="seCrumple" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feTurbulence id="seCrT" type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="3" result="n"/><feDisplacementMap id="seCrD" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" result="d"/><feDiffuseLighting in="n" surfaceScale="6" lighting-color="#ffffff" result="l"><feDistantLight azimuth="225" elevation="48"/></feDiffuseLighting><feComposite id="seCrC" in="d" in2="l" operator="arithmetic" k1="0" k2="1" k3="0" k4="0" result="s"/><feComposite in="s" in2="d" operator="in"/></filter>';
+    document.body.appendChild(svg);crF={t:svg.querySelector('#seCrT'),d:svg.querySelector('#seCrD'),c:svg.querySelector('#seCrC')};return crF;
+  }
+  function crumple(y,dir){
+    if(vBusy)return;vBusy=true;busy=true;TGT=null;lock=performance.now()+1400;
+    var light=innerWidth<760,F=light?null:crumpleFilter();
+    var from=cards[idx(scrollY)],toI=0;for(var k=0;k<S.length;k++)if(Math.abs(S[k]-y)<3)toI=k;var dest=cards[toI];
+    function rnd(a,b){return a+Math.random()*(b-a)}
+    var rot1=rnd(7,18)*(Math.random()<.5?-1:1),rot2=rnd(7,18)*(Math.random()<.5?-1:1),sq1=rnd(.8,1.15),sq2=rnd(.8,1.15),
+        o1=rnd(30,70)+'% '+rnd(35,65)+'%',o2=rnd(30,70)+'% '+rnd(35,65)+'%',dx1=rnd(-40,40),dy1=(dir>0?-1:1)*rnd(20,70),dx2=rnd(-40,40),dy2=(dir>0?1:-1)*rnd(20,70);
+    if(F){F.t.setAttribute('seed',String(Math.floor(rnd(1,999))));F.t.setAttribute('baseFrequency',rnd(.007,.016).toFixed(4))}
+    function setF(e){if(!F)return;F.d.setAttribute('scale',(e*rnd(68,72)).toFixed(1));var w=Math.min(.6,e*.7);F.c.setAttribute('k1',w.toFixed(3));F.c.setAttribute('k2',(1-w).toFixed(3))}
+    function look(c,e,rot,sq,o,dx,dy){var sc=1-.8*e;c.style.transformOrigin=o;c.style.transform='translate('+(dx*e).toFixed(1)+'px,'+(dy*e).toFixed(1)+'px) rotate('+(rot*e).toFixed(2)+'deg) scale('+sc.toFixed(4)+','+(sc*(1-(1-sq)*e)).toFixed(4)+')';c.style.borderRadius=(20+e*120)+'px';if(F)c.style.filter='url(#seCrumple)'}
+    function clear(c){c.style.transform='';c.style.filter='';c.style.opacity='';c.style.borderRadius='';c.style.transformOrigin='';c.style.zIndex=''}
+    var T1=520,T2=680,t0=performance.now(),swapped=false,done=false;
+    function abort(){done=true;clear(from);clear(dest);if(!swapped){swapped=true;var hb=R.style.scrollBehavior;R.style.scrollBehavior='auto';scrollTo(0,y);R.style.scrollBehavior=hb}vBusy=false;busy=false;paint()}
+    var dog=setTimeout(abort,T1+T2+900);
+    function frame(now){if(done)return;try{
+      var t=now-t0;
+      if(t<T1){var e=ez(t/T1);setF(e);from.style.zIndex='3';look(from,e,rot1,sq1,o1,dx1,dy1);from.style.opacity=String(1-Math.max(0,(e-.55)/.45))}
+      else{
+        if(!swapped){swapped=true;clear(from);if(TI!==null){measure();y=S[TI]}var hb=R.style.scrollBehavior;R.style.scrollBehavior='auto';scrollTo(0,y);R.style.scrollBehavior=hb;paint()}
+        var u=Math.min(1,(t-T1)/T2),e2=1-ez(u);setF(e2);dest.style.zIndex='3';look(dest,e2,rot2,sq2,o2,dx2,dy2);dest.style.opacity=String(Math.min(1,u*3));
+        if(u>=1){clearTimeout(dog);clear(dest);vBusy=false;busy=false;done=true;return}
+      }
+      requestAnimationFrame(frame);
+    }catch(err){clearTimeout(dog);abort()}}
+    requestAnimationFrame(frame);
+  }
+  var MIX=['crumple','wave','sphere','crumple','synapse','rain','crumple','vortex'],mixI=0;
+  var TI=null;
+  function to(i){measure();TI=(i>=0&&i<cards.length)?i:null;var y=i<0?0:(i>=cards.length?H:S[i]);if(R.classList.contains('se-g')&&!still()&&Math.abs(y-scrollY)>40){var dir=y>scrollY?1:-1;var nv=R.getAttribute('data-nv')||'vortex';if(nv==='mix'){nv=MIX[mixI++%MIX.length]}var yy=Math.round(Math.min(H,Math.max(0,y)));return nv==='crumple'?crumple(yy,dir):neural(yy,dir,nv)}go(y)}
+  function step(dir){
+    var y=scrollY,i=idx(y);
+    if(dir>0){
+      if(y<E[i]-6){go(Math.min(E[i],y+AV*.85));return true}   /* tall card: page through it */
+      if(i===cards.length-1){if(y<H-6){go(H);return true}return true}
+      to(i+1);return true;
+    }else{
+      if(y>S[i]+6&&y<=E[i]+6){go(Math.max(S[i],y-AV*.85));return true}
+      if(y>S[i]+6){to(i);return true}
+      to(i-1);return true;
+    }
+  }
+  /* settle: never rest between two cards */
+  function settle(){
+    if(!R.classList.contains('se-on')||busy)return;
+    var y=scrollY,i=idx(y);
+    if(y>=S[i]-6&&y<=E[i]+6)return;            /* on a card (or within a tall one) */
+    if(i===cards.length-1&&y>E[i])return;       /* footer zone */
+    var a=E[i],b=(S[i+1]!==undefined?S[i+1]:H);
+    go((y-a)<(b-y)?a:b);
+  }
+  addEventListener('scroll',function(){if(TGT!==null&&Math.abs(scrollY-TGT)<2){busy=false;TGT=null}clearTimeout(endT);endT=setTimeout(settle,140);if(!raf)raf=requestAnimationFrame(paint)},{passive:true});
+  addEventListener('wheel',function(e){
+    if(!R.classList.contains('se-on')||!fine.matches||e.ctrlKey||Math.abs(e.deltaY)<Math.abs(e.deltaX))return;
+    var tg=e.target.closest&&e.target.closest('.a11y-panel,textarea');if(tg&&(tg.classList.contains('a11y-panel')||tg.scrollHeight>tg.clientHeight+2))return;
+    var now=performance.now();
+    var ad=Math.abs(e.deltaY),dt=now-wLastT,fresh=dt>240||ad>wLastD*1.5+4;wLastT=now;wLastD=ad;
+    if(now<lock||!fresh){e.preventDefault();return}
+    if(ad<3)return;
+    if(step(e.deltaY>0?1:-1))e.preventDefault();
+  },{passive:false});
+  addEventListener('keydown',function(e){
+    if(!R.classList.contains('se-on')||e.altKey||e.ctrlKey||e.metaKey)return;
+    var t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT|BUTTON|SUMMARY)$/.test(t.tagName)))return;
+    var d={PageDown:1,ArrowDown:1,' ':1,PageUp:-1,ArrowUp:-1}[e.key];if(!d)return;if(e.key===' '&&e.shiftKey)d=-1;
+    if(performance.now()<lock){e.preventDefault();return}
+    if(step(d))e.preventDefault();
+  });
+  /* in-page links land exactly on the card, under the header */
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
+    var id=a.getAttribute('href').slice(1);if(!id)return;
+    if(id==='top'){e.preventDefault();go(0);return}
+    var el=document.getElementById(id);if(!el)return;
+    var i=cards.indexOf(el);if(i<0)i=cards.indexOf(el.closest('#top > .stage, main > section'));if(i<0)return;
+    e.preventDefault();to(i);
+    if(id==='main'){el.focus({preventScroll:true})}
+  });
+  /* paint: dots + stacking depth */
+  function paint(){
+    raf=0;var y=scrollY,i=idx(y);
+    dots.forEach(function(d,k){d.setAttribute('aria-current',k===i?'true':'false')});
+    var on=R.classList.contains('se-c');cards.forEach(function(c,k){c.classList.toggle('se-dim',on&&k!==i)});
+    var isD=R.classList.contains('se-d'),isE=R.classList.contains('se-e');
+    if((isD||isE)&&!still()){cards.forEach(function(c,k){
+      var d=Math.max(-1.2,Math.min(1.2,(S[k]-y)/Math.max(300,AV)));if(y>S[k]&&y<=E[k])d=0;else if(y>E[k])d=(E[k]-y)/Math.max(300,AV);
+      var a=Math.min(1,Math.abs(d));
+      c.style.transform=isD?'perspective(1400px) rotateX('+(d*-16).toFixed(2)+'deg) scale('+(1-a*.07).toFixed(4)+')':'scale('+(1-a*.14).toFixed(4)+')';
+      c.style.opacity=(1-a*(isD?.45:.55)).toFixed(3);
+    });return}
+    if(isD||isE){cards.forEach(function(c){c.style.transform='';c.style.opacity=''})}
+    if(R.classList.contains('se-f')){var fi=idx(y+AV*.5);cards.forEach(function(c,k){if(k===fi){if(!c.classList.contains('se-live')){c.classList.remove('se-wait');c.classList.add('se-live')}}else if(Math.abs(k-i)>0&&!busyLand(k)){c.classList.remove('se-live');c.classList.add('se-wait')}})}
+    if(!R.classList.contains('se-b')||still()){cards.forEach(function(c){c.style.transform='';c.style.filter=''});return}
+    cards.forEach(function(c,k){
+      var nxt=S[k+1];if(nxt===undefined){c.style.transform='';c.style.filter='';return}
+      var span=Math.max(1,nxt-E[k]),p=Math.min(1,Math.max(0,(y-E[k])/span));
+      c.style.transform=p?'scale('+(1-.05*p).toFixed(4)+')':'';c.style.filter=p?'brightness('+(1-.12*p).toFixed(3)+')':'';
+    });
+  }
+  function hashGo(){var h=location.hash.slice(1);if(!h)return;var el=document.getElementById(h);if(!el)return;var i=cards.indexOf(el);if(i>=0)to(i)}
+  addEventListener('load',function(){setTimeout(hashGo,250)});
+  function busyLand(k){return false}
+  window.__SE={set:function(m){vBusy=false;busy=false;if(vx)vx.style.display='none';cards.forEach(function(c){c.style.transform='';c.style.filter='';c.style.borderRadius='';c.style.transformOrigin='';c.style.zIndex=''});var nv=null;if(m.indexOf(':')>0){nv=m.split(':')[1];m=m.split(':')[0]}if(nv)R.setAttribute('data-nv',nv);MODE=m;cards.forEach(function(c){c.classList.remove('se-live','se-wait');c.style.opacity=''});['d','e','f','g'].forEach(function(x){R.classList.toggle('se-'+x,m===x)});R.classList.toggle('se-f',m==='f'||m==='g');R.classList.toggle('se-on',m!=='off');R.classList.toggle('se-b',m==='b');R.classList.toggle('se-c',m==='c');setTimeout(function(){measure();to(idx(scrollY))},60)}};
+  window.__SE.set(MODE);
+  addEventListener('resize',function(){clearTimeout(window.__seR);window.__seR=setTimeout(measure,150)});
+  addEventListener('load',measure);
+  if(window.ResizeObserver){var ro=new ResizeObserver(function(){if(performance.now()-ZT<500)return;clearTimeout(window.__seO);window.__seO=setTimeout(measure,200)});cards.forEach(function(c){ro.observe(c)})}
 })();
 </script>
 </body>
