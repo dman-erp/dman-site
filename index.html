@@ -383,6 +383,7 @@ h1,h2,h3,.slogan,.sec-head h2,.meter b,.counter b{font-family:var(--f-display);f
 #contact .c-lines .line{gap:6px}
 /* the skip-link target needs no visible frame */
 #main:focus,#main:focus-visible{outline:none}
+.bar nav a:not(.btn)[aria-current="true"]{color:var(--teal);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:7px}
 /* merged slides: about + start, FAQ + contact */
 .ab-start{position:relative;z-index:1;display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--panel-line);padding-top:clamp(18px,3vh,30px)}
 .ab-start-head{display:flex;flex-direction:column;gap:4px}
@@ -449,6 +450,7 @@ html:not(.se-on) .se-dots{display:none}
 <header class="bar">
   <div class="wrap">
     <nav aria-label="ניווט ראשי">
+      <a href="#top">בית</a>
       <a href="#change">לפני ואחרי</a>
       <a href="#services">שירותים</a>
       <a href="#ai">מתודולוגיה</a>
@@ -945,6 +947,7 @@ var S=[
   var names=cards.map(function(c,i){var h=c.querySelector('h1,h2');return h?h.textContent.trim():('חלק '+(i+1))});
   var dots=cards.map(function(c,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',names[i]);b.addEventListener('click',function(){to(i)});nav.appendChild(b);return b});
   document.body.appendChild(nav);
+  var navLinks=[].slice.call(document.querySelectorAll('.bar nav a:not(.btn)'));
   function off(){return (bar?bar.offsetHeight:70)+12}
   function measure(){
     var o=off();R.style.setProperty('--barh',(bar?bar.offsetHeight:70)+'px');
@@ -1114,7 +1117,7 @@ var S=[
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
     var id=a.getAttribute('href').slice(1);if(!id)return;
-    if(id==='top'){e.preventDefault();go(0);return}
+    if(id==='top'){e.preventDefault();to(0);return}
     var el=document.getElementById(id);if(!el)return;
     var i=cards.indexOf(el);if(i<0)i=cards.indexOf(el.closest('#top > .stage, main > section'));if(i<0)return;
     e.preventDefault();to(i);
@@ -1124,6 +1127,7 @@ var S=[
   function paint(){
     raf=0;var y=scrollY,i=idx(y);
     dots.forEach(function(d,k){d.setAttribute('aria-current',k===i?'true':'false')});
+    var cid=i===0?'top':cards[i].id;navLinks.forEach(function(l){l.setAttribute('aria-current',l.getAttribute('href')==='#'+cid?'true':'false')});
     var on=R.classList.contains('se-c');cards.forEach(function(c,k){c.classList.toggle('se-dim',on&&k!==i)});
     var isD=R.classList.contains('se-d'),isE=R.classList.contains('se-e');
     if((isD||isE)&&!still()){cards.forEach(function(c,k){
